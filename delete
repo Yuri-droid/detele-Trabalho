@@ -1,0 +1,17 @@
+@app.route("/edit/<int:id>",methods=["GET","POST"])
+def edit(id):
+    user = user.query.get(id)
+    if request.method == "POST":
+        user.username = request.form["nome"]
+        user.email = request.form["email"]
+        db.session.commit()
+        return redirect(url_for("index"))
+    return render_template("cadastro.html",user=user )
+
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    user = user.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for("index"))
